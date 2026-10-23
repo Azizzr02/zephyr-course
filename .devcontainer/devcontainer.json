@@ -1,0 +1,44 @@
+{
+  "name": "Zephyr Course",
+  "image": "ghcr.io/embeddedcontainers/zephyr:arm-0.17.0SDK",
+  
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workdir,type=bind",
+  "workspaceFolder": "/workdir",
+  
+  "mounts": [
+    "source=/dev,target=/dev,type=bind",
+    "source=zephyr-ccache,target=/root/.cache/ccache,type=volume"
+  ],
+  "containerEnv": {
+    "ZEPHYR_CCACHE_DIR": "/root/.cache/ccache"
+  },
+  "runArgs": ["--privileged"],
+
+"onCreateCommand": "apt-get update && apt-get install -y openocd usbutils locales && sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen && export LANG=en_US.UTF-8 && export LC_ALL=en_US.UTF-8 && pip install pyelftools && rm -rf /.west /deps && if [ ! -d /workdir/.west ]; then cd /workdir && unset ZEPHYR_BASE && west init -l app && west update && west zephyr-export; fi",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "cmake.configureOnOpen": false,
+        "C_Cpp.default.compilerPath": "/opt/toolchains/zephyr-sdk-0.17.0/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+        "C_Cpp.default.compileCommands": "${workspaceFolder}/app/build/compile_commands.json",
+        "files.associations": {
+          "*.overlay": "dts",
+          "*.dtsi": "dts",
+          "Kconfig": "kconfig"
+        }
+      },
+      "extensions": [
+        "-nordic-semiconductor.nrf-connect",
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "trond-snekvik.kconfig-lang",
+        "marus25.cortex-debug",
+        "plorefice.devicetree",
+        "eamodio.gitlens",
+        "usernamehw.errorlens",
+        "jeff-hykin.better-cpp-syntax",
+        "ms-vscode.vscode-serial-monitor"
+      ]
+    }
+  }
+}
