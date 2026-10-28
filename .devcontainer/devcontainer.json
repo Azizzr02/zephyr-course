@@ -7,7 +7,8 @@
   
   "mounts": [
     "source=/dev,target=/dev,type=bind",
-    "source=zephyr-ccache,target=/root/.cache/ccache,type=volume"
+    "source=zephyr-ccache,target=/root/.cache/ccache,type=volume",
+    "source=zephyr-build-volume,target=/workdir/app/build,type=volume"
   ],
   "containerEnv": {
     "ZEPHYR_CCACHE_DIR": "/root/.cache/ccache"
