@@ -1,0 +1,6 @@
+board:
+  name: our_board_scratch
+  full_name: STM32F407 From Scratch
+  vendor: st
+  socs:
+    - name: stm32f407xx
